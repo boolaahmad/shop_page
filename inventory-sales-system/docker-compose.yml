@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URL=sqlite:////data/inventory.db
+      - SECRET_KEY=${SECRET_KEY:-change-me}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-change-me-jwt}
+      - STORE_NAME=بصمة للسوفت وير
+      - TAX_RATE=0.14
+      - TRIAL_DAYS=60
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+
+  # يمكن تفعيل PostgreSQL للإنتاج بتعليق السطور التالية
+  # db:
+  #   image: postgres:15-alpine
+  #   environment:
+  #     POSTGRES_DB: inventory_db
+  #     POSTGRES_USER: inventory_user
+  #     POSTGRES_PASSWORD: inventory_pass
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   restart: unless-stopped
+
+# volumes:
+#   postgres_data:
